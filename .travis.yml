@@ -3,7 +3,7 @@ language: php
 php: 7.3
 
 before_script:
-  - apt-get install -y php-mongodb
+  - sudo apt-get install -y php-mongodb
   - pecl install -y mongodb
   - cp .env.example .env
   - phpenv config-add .travis.config.ini
