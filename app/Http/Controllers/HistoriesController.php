@@ -98,7 +98,7 @@ class HistoriesController extends Controller
             throw new RecordNotFoundException($id);
         }
 
-        $status = DB::collection('histories')->update($request->all());
+        $status = $record->update($request->all());
         if (! $status) {
             throw new CouldNotUpdateRecordException($id);
         }
