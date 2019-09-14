@@ -40,6 +40,18 @@ class HistoriesControllerTest extends TestCase
      */
     public function show()
     {
+        // 404
+        $response = $this->json('GET', "histories/999999");
+        $exception = (new \App\Exceptions\RecordNotFoundException(999999));
+
+        $response
+            ->assertResponseStatus(404);
+
+        $this->seeJson([
+            'message' => $exception->getMessage(),
+        ]);
+
+
         $response = $this->call('GET', "histories/{$this->records[0]->_id}");
 
         $this->assertEquals(200, $response->status());
@@ -55,7 +67,8 @@ class HistoriesControllerTest extends TestCase
      */
     public function store()
     {
-        $response = $this->call('POST', "histories", []);
+        $response = $this->call('POST', "histories", [])
+            ->header('accept', 'application/json');
 
         $this->assertEquals(422, $response->status());
 
@@ -86,6 +99,18 @@ class HistoriesControllerTest extends TestCase
      */
     public function update()
     {
+        // 404
+        $response = $this->json('PUT', "histories/999999");
+        $exception = (new \App\Exceptions\RecordNotFoundException(999999));
+
+        $response
+            ->assertResponseStatus(404);
+
+        $this->seeJson([
+            'message' => $exception->getMessage(),
+        ]);
+
+
         $response = $this->call('PUT', "histories/{$this->records[0]->_id}", [
             'type' => 'purchase made (--updated)',
         ]);
@@ -107,6 +132,17 @@ class HistoriesControllerTest extends TestCase
      */
     public function deleteAction()
     {
+        // 404
+        $response = $this->json('DELETE', "histories/999999");
+        $exception = (new \App\Exceptions\RecordNotFoundException(999999));
+
+        $response
+            ->assertResponseStatus(404);
+
+        $this->seeJson([
+            'message' => $exception->getMessage(),
+        ]);
+
         $response = $this->call('DELETE', "histories/{$this->records[0]->_id}");
 
         $this->assertEquals(201, $response->status());
