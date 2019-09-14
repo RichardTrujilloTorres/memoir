@@ -1,10 +1,10 @@
 language: php
 
-php: 7.2
+php: 7.3
 
 before_script:
-  - sudo apt-get install -y php-mongodb
-  - sudo pecl install -y mongodb
+  - apt-get install -y php-mongodb
+  - pecl install -y mongodb
   - cp .env.example .env
   - phpenv config-add .travis.config.ini
   - mongo memoir_test --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
