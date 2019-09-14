@@ -64,9 +64,15 @@ class HistoriesController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      * @throws CouldNotCreateRecordException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'contact' => 'required',
+            'type' => 'required',
+        ]);
+
         $record = $request->all();
         $status = DB::collection('histories')->insert($record);
         if (! $status) {
@@ -84,9 +90,15 @@ class HistoriesController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @throws CouldNotUpdateRecordException
      * @throws RecordNotFoundException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update($id, Request $request)
     {
+        $this->validate($request, [
+            'contact' => 'required',
+            'type' => 'required',
+        ]);
+
         $record = $this->history->where('_id', $id)->first();
         if (! $record) {
             throw new RecordNotFoundException($id);
