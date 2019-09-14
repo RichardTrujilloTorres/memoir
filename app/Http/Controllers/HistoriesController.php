@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\RecordNotFound;
+use App\Exceptions\CouldNotCreateRecordException;
+use App\Exceptions\CouldNotUpdateRecordException;
+use App\Exceptions\RecordNotFoundException;
 use App\History;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class HistoriesController
@@ -41,13 +44,13 @@ class HistoriesController extends Controller
     /**
      * @param $id
      * @return \Illuminate\Http\JsonResponse
-     * @throws RecordNotFound
+     * @throws RecordNotFoundException
      */
     public function show($id)
     {
         $record = $this->history->where('_id', $id)->first();
         if (! $record) {
-            throw new RecordNotFound($id);
+            throw new RecordNotFoundException($id);
         }
 
         return response()->json([
@@ -58,10 +61,15 @@ class HistoriesController extends Controller
     /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
+     * @throws CouldNotCreateRecordException
      */
     public function store(Request $request)
     {
-        $record = $this->history->create($request->all());
+        $record = $request->all();
+        $status = DB::collection('histories')->insert($record);
+        if (! $status) {
+            throw new CouldNotCreateRecordException();
+        }
 
         return response()->json([
             'data' => compact('record')
@@ -72,16 +80,20 @@ class HistoriesController extends Controller
      * @param $id
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
-     * @throws RecordNotFound
+     * @throws CouldNotUpdateRecordException
+     * @throws RecordNotFoundException
      */
     public function update($id, Request $request)
     {
         $record = $this->history->where('_id', $id)->first();
         if (! $record) {
-            throw new RecordNotFound($id);
+            throw new RecordNotFoundException($id);
         }
 
-        $record->update($request->all());
+        $status = DB::collection('histories')->update($request->all());
+        if (! $status) {
+            throw new CouldNotUpdateRecordException($id);
+        }
 
         return response()->json([
             'data' => compact('record')
@@ -92,13 +104,13 @@ class HistoriesController extends Controller
      * @param $id
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
-     * @throws RecordNotFound
+     * @throws RecordNotFoundException
      */
     public function delete($id, Request $request)
     {
         $record = $this->history->where('_id', $id)->first();
         if (! $record) {
-            throw new RecordNotFound($id);
+            throw new RecordNotFoundException($id);
         }
 
         $record->delete();
