@@ -17,3 +17,11 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'email' => $faker->email,
     ];
 });
+
+$factory->define(\App\History::class, function (Faker\Generator $faker) {
+    return [
+        'contact' => '/api/v1/contacts/' . rand(1, 10),
+        'type' => $faker->sentence,
+        'followUp' => $faker->sentence,
+    ];
+});
