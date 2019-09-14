@@ -11,6 +11,19 @@
 |
 */
 
+
 $router->get('/', function () use ($router) {
+    $users = \App\User::all();
+
+    dd(\App\History::all());
+
+    dd($users);
+
     return $router->app->version();
 });
+
+$router->get('/histories', 'HistoriesController@index');
+$router->get('/histories/{id}', 'HistoriesController@show');
+$router->post('/histories', 'HistoriesController@store');
+$router->put('/histories/{id}', 'HistoriesController@update');
+$router->delete('/histories/{id}', 'HistoriesController@delete');
