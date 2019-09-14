@@ -3,7 +3,7 @@ language: php
 php: 7.3
 
 before_script:
-  - sudo apt-get install php-mongodb
+  - sudo apt-get install -y php-mongodb
   - cp .env.example .env
   - phpenv config-add .travis.config.ini
   - mongo memoir_test --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
