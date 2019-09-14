@@ -30,11 +30,13 @@ class HistoriesController extends Controller
     }
 
     /**
+     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        $records = $this->history->all()->toArray();
+        $perPage = $request->query->has('per_page') ? (int)$request->query->get('per_page') : 10;
+        $records = $this->history->paginate($perPage);
 
         return response()->json([
             'data' => compact('records'),
