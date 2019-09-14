@@ -90,15 +90,9 @@ class HistoriesController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @throws CouldNotUpdateRecordException
      * @throws RecordNotFoundException
-     * @throws \Illuminate\Validation\ValidationException
      */
     public function update($id, Request $request)
     {
-        $this->validate($request, [
-            'contact' => 'required',
-            'type' => 'required',
-        ]);
-
         $record = $this->history->where('_id', $id)->first();
         if (! $record) {
             throw new RecordNotFoundException($id);
