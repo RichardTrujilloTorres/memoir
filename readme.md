@@ -1,6 +1,8 @@
 # Memoir
 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/RichardTrujilloTorres/memoir/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/RichardTrujilloTorres/memoir/?branch=master)
 [![Build Status](https://travis-ci.org/RichardTrujilloTorres/memoir.svg?branch=master)](https://travis-ci.org/RichardTrujilloTorres/memoir)
+[![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat)](https://github.com/phpstan/phpstan)
 
 A history (micro) service.
 
